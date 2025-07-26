@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitch Chat Befehle</title>
+    <link
+      rel="icon"
+      type="img/png"
+      href="IMG Ordner/Website_Icon_Ordner/Logo Overlay 1.1.png"
+    />
+    <link rel="stylesheet" href="twitch_chat_befehle.css" />
+    <script defer src="twitch_chat_befehle.js"></script>
+  </head>
+  <body>
+    <div id="mobileWarning">
+      ⚠️ Diese Seite ist nur für Desktop‐Browser optimiert!
+    </div>
+    <div id="backgroundImgContainerId" class="background-img-container">
+      <img
+        width="1920"
+        height="1080"
+        id="backgroundImgId"
+        src="IMG Ordner/Background IMG Ordner/Banner Overley 1.1.jpg"
+        alt="Hintergrund Bild"
+        class="background-img"
+        loading="lazy"
+      />
+    </div>
+    <div class="link-img-txt-logo-container">
+      <div class="link-img-logo-container">
+        <a
+          href="https://shimldergamer47.github.io/Shiml_der_Gamer47-Homepage/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-logo"
+        >
+          <img
+            width="1920"
+            height="1080"
+            id="imgLogoId"
+            src="IMG Ordner/Sonder_Bilder_Ordner/Banner & Logo Overley 1.1.jpg"
+            alt="Shiml_der_Gamer47 Homepage"
+            class="img-logo"
+            loading="lazy"
+          />
+        </a>
+      </div>
+      <div class="link-txt-container">
+        <a
+          href="https://shimldergamer47.github.io/Shiml_der_Gamer47-Homepage/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-txt"
+        >
+          Shiml_der_Gamer47<br />Homepage
+        </a>
+      </div>
+    </div>
+    <div class="seek-main-container">
+      <form id="formSeekId">
+        <div class="seek-sub-main-container">
+          <div class="seek-input-label-container">
+            <input
+              type="text"
+              name="input_seek"
+              id="inputSeekId"
+              value=""
+              title="Gib denn gesuchten Commands ein"
+              class="input-seek"
+              required
+              placeholder="Gib denn gesuchten Commands ein"
+            />
+            <label for="inputSeekId" class="label-placeholder">
+              Gib denn gesuchten Commands ein
+            </label>
+          </div>
+          <div class="seek-submit-container">
+            <input
+              type="submit"
+              name="input_submit_seek"
+              id="seekSubmitId"
+              value="Suchen"
+              title="Suchen"
+              class="seek-submit"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="search-results-span-container">
+      <span id="spanResultsId" class="results-span"></span>
+    </div>
+    <div class="select-option-commands-container">
+      <select
+        name="select_commands"
+        id="selectCommandsId"
+        title="Such dir ein Commands aus"
+        class="commands-select"
+      >
+        <option value="!addquote">!addquote</option>
+        <option value="!commands">!commands</option>
+        <option value="!dadjoke">!dadjoke</option>
+        <option value="!death">!death</option>
+        <option value="!deletequote">!deletequote</option>
+        <option value="!duell">!duell</option>
+        <option value="!games">!games</option>
+        <option value="!magic8ball">!magic8ball</option>
+        <option value="!mixitup">!mixitup</option>
+        <option value="!mixitupcommands">!mixitupcommands</option>
+        <option value="!quote">!quote</option>
+        <option value="!steamgame">!steamgame</option>
+        <option value="!xboxgame">!xboxgame</option>
+        <option value="!accountage">!accountage</option>
+        <option value="!commands">!commands</option>
+        <option value="!8ball">!8ball</option>
+        <option value="!emotes">!emotes</option>
+        <option value="!followage">!followage</option>
+        <option value="!givepoints">!givepoints</option>
+        <option value="!sr">!sr</option>
+        <option value="!watchtime">!watchtime</option>
+        <option value="!Love">!Love</option>
+        <option value="!Roulette">!Roulette</option>
+        <option value="!Seppuku">!Seppuku</option>
+      </select>
+    </div>
+    <div class="ul-li-txt-container">
+      <ul class="ul-li-txt">
+        <li>!addquote</li>
+        <li>!commands</li>
+        <li>!dadjoke</li>
+        <li>!death</li>
+        <li>!deletequote</li>
+        <li>!duell</li>
+        <li>!games</li>
+        <li>!magic8ball</li>
+        <li>!mixitup</li>
+        <li>!mixitupcommands</li>
+        <li>!quote</li>
+        <li>!steamgame</li>
+        <li>!xboxgame</li>
+        <li>!accountage</li>
+        <li>!commands</li>
+        <li>!8ball</li>
+        <li>!emotes</li>
+        <li>!followage</li>
+        <li>!givepoints</li>
+        <li>!sr</li>
+        <li>!watchtime</li>
+        <li>!Love</li>
+        <li>!Roulette</li>
+        <li>!Seppuku</li>
+      </ul>
+    </div>
+    <div id="twitchEmbedContainerId" class="twitch-embed-container"></div>
+    <div class="date-time-txt-container">
+      <div class="time-txt-container">
+        <h1 id="timeTxtId" class="time-txt"></h1>
+      </div>
+      <div class="date-txt-container">
+        <h2 id="dateTxtId" class="date-txt"></h2>
+      </div>
+    </div>
+  </body>
+</html>
