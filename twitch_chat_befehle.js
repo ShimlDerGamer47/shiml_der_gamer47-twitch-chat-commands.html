@@ -343,6 +343,5 @@ document.addEventListener("DOMContentLoaded", function () {
       select.value = stored;
     }
   }
-
   commandsToken();
 });
