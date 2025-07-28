@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fontFamily = "--font-family";
   const robotoBold = getComputedStyle(html).getPropertyValue(fontFamily).trim();
   const body = document.body;
+
   body.style.fontFamily = robotoBold;
 
   const backgroundImgContainer = document.getElementById(
@@ -12,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const imgLogo = document.getElementById("imgLogoId");
   const formSeek = document.getElementById("formSeekId");
   const inputSeek = document.getElementById("inputSeekId");
-  const seekSubmit = document.getElementById("seekSubmitId");
   const spanResults = document.getElementById("spanResultsId");
   const selectCommands = document.getElementById("selectCommandsId");
   const twitchEmbedContainer = document.getElementById(
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function mobileWarningToken(e = mobileQuery) {
     const mobileWarning = document.getElementById("mobileWarning");
+
     const isMatches = e.matches;
 
     Object.assign(mobileWarning.style, {
@@ -40,14 +41,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     mobileWarning.style.display = isMatches ? "block" : "none";
 
-    if (isMatches) {
-      body.classList.add("desktop-hidden");
-    } else {
-      body.classList.remove("desktop-hidden");
-    }
+    if (isMatches) body.classList.add("desktop-hidden");
+    else body.classList.remove("desktop-hidden");
   }
 
   mobileQuery.addEventListener("change", mobileWarningToken);
+
   mobileWarningToken();
 
   function backgroundImgToken() {
@@ -71,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function imgLogoToken() {
     const evs = ["copy", "keydown", "dragstart", "select"];
-
     const style = {
       fontFamily: robotoBold,
       userSelect: "none",
@@ -85,24 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     Object.assign(imgLogo.style, style);
   }
+
   imgLogoToken();
-
-  function seekCommandsToken() {
-    inputSeek.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-
-        seekSubmit.click();
-      }
-    });
-
-    spanResults.addEventListener("dblclick", (e) => {
-      e.preventDefault();
-
-      spanResults.innerText = "";
-    });
-  }
-  seekCommandsToken();
 
   function twitchEmbedToken() {
     const domain = window.location.hostname;
@@ -113,9 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const script = document.createElement("script");
       script.src = "https://embed.twitch.tv/embed/v1.js";
       twitchEmbedContainer.appendChild(script);
+
       obs.unobserve(twitchEmbedContainer);
 
-      script.onload = () => {
+      script.addEventListener("load", () => {
         const embed = new Twitch.Embed("twitchEmbedContainerId", {
           width: 1920,
           height: 1080,
@@ -138,14 +121,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         const iframe = document.querySelector("iframe");
+
         if (iframe) {
           iframe.classList.add("twitch-embed");
           iframe.style.fontFamily = robotoBold;
           iframe.style.userSelect = "none";
-        } else {
-          console.warn("Twitch-Embed nicht verfügbar.");
         }
-      };
+      });
     });
 
     io.observe(twitchEmbedContainer, { threshold: 0.1 });
@@ -167,8 +149,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const year = now.getFullYear();
 
-    timeTxt.textContent = `${hh}:${mm}:${ss}:${ms} Uhr`;
-    dateTxt.textContent = `${day}.${month}.${year}`;
+    const timeText = `${hh}:${mm}:${ss}:${ms} Uhr`;
+    const dateText = `${day}.${month}.${year}`;
+
+    timeTxt.textContent = timeText;
+    dateTxt.textContent = dateText;
   }
 
   setInterval(newDateToken, 1);
@@ -181,9 +166,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const suggestions = Array.from(select.options).map((o) => o.value);
 
+    const commandMap = {};
+
+    suggestions.forEach((cmd) => {
+      const norm = cmd.replace(/^!/, "").toLowerCase();
+
+      commandMap[norm] = cmd;
+
+      commandMap[cmd.toLowerCase()] = cmd;
+    });
+
     const wrapper = input.parentElement;
     wrapper.style.position = "relative";
-
     const dd = document.createElement("div");
     Object.assign(dd.style, {
       position: "absolute",
@@ -208,7 +202,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       items.forEach((text, i) => {
         const item = document.createElement("div");
-
         item.textContent = text;
 
         item.style.padding = "8px 12px";
@@ -237,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function hideDropdown() {
       dd.style.display = "none";
+
       selIndex = -1;
 
       clearHighlights();
@@ -257,10 +251,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function unhighlight(i) {
       const c = dd.children[i];
 
-      if (c) c.style.background = "";
+      if (c) c.style.removeProperty("background");
     }
+
     function clearHighlights() {
-      Array.from(dd.children).forEach((c) => (c.style.background = ""));
+      Array.from(dd.children).forEach((c) =>
+        c.style.removeProperty("background")
+      );
     }
 
     function selectCommand(cmd) {
@@ -276,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!txt) return hideDropdown();
 
       const matches = suggestions.filter((s) =>
-        s.toLowerCase().startsWith(txt)
+        s.replace(/^!/, "").toLowerCase().startsWith(txt)
       );
 
       showDropdown(matches);
@@ -314,33 +311,38 @@ document.addEventListener("DOMContentLoaded", function () {
     preview.addEventListener("dblclick", (e) => {
       e.preventDefault();
 
+      localStorage.clear();
+
       preview.innerText = "";
     });
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const v = input.value.trim();
+      const raw = input.value.trim();
 
-      if (suggestions.includes(v)) {
-        selectCommand(v);
+      input.value = "";
 
-        input.value = "";
+      const key = raw.replace(/^!/, "").toLowerCase();
+
+      if (commandMap[key]) {
+        selectCommand(commandMap[key]);
       } else {
         alert(
-          "Ungültig: gib einen existierenden Command ein oder wähle aus der Liste."
+          "Ungültiger Command! Bitte wähle aus der Liste oder gib einen gültigen ein."
         );
       }
+
       hideDropdown();
     });
 
     preview.innerText = "";
-
     const stored = localStorage.getItem("selectedCommand");
 
     if (stored && suggestions.includes(stored)) {
       select.value = stored;
     }
   }
+
   commandsToken();
 });
